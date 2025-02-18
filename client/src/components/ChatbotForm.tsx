@@ -147,7 +147,7 @@ export default function ChatbotForm() {
   }
 
   return (
-    <div className="mt-8 bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-lg p-6">
+    <div className="mt-8 bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-lg p-4 sm:p-6">
       {currentStep === 'requirements' && (
         <div>
           <Textarea
@@ -157,11 +157,11 @@ export default function ChatbotForm() {
             placeholder={placeholderText}
             className="w-full min-h-[80px] mb-4 resize-none rounded-xl border-none focus:ring-2 focus:ring-blue-200 bg-white/80"
           />
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3 text-sm">
+          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 sm:gap-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3 text-sm">
               <Button 
                 variant="ghost" 
-                className="h-9 px-3 rounded-xl hover:bg-blue-50"
+                className="h-10 sm:h-9 px-3 rounded-xl hover:bg-blue-50 justify-start sm:justify-center"
                 onClick={() => window.location.href='tel:+18333311118'}
               >
                 <span className="w-4 h-4 mr-2">📞</span>
@@ -169,7 +169,7 @@ export default function ChatbotForm() {
               </Button>
               <Button 
                 variant="ghost"
-                className="h-9 px-3 rounded-xl hover:bg-blue-50"
+                className="h-10 sm:h-9 px-3 rounded-xl hover:bg-blue-50 justify-start sm:justify-center"
                 onClick={() => window.location.href='mailto:hello@stellardigitech.com'}
               >
                 <span className="w-4 h-4 mr-2">✉️</span>
@@ -179,7 +179,7 @@ export default function ChatbotForm() {
             <Button 
               onClick={handleNext}
               size="icon"
-              className="rounded-xl bg-blue-600 hover:bg-blue-700 shadow-md"
+              className="h-10 w-full sm:w-10 rounded-xl bg-blue-600 hover:bg-blue-700 shadow-md"
             >
               <ArrowUpRight className="h-5 w-5" />
             </Button>
@@ -189,7 +189,7 @@ export default function ChatbotForm() {
 
       {currentStep === 'contact' && (
         <div>
-          <div className="grid grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
             <Input
               name="name"
               placeholder="Your Name"
@@ -218,14 +218,14 @@ export default function ChatbotForm() {
             <Button 
               variant="ghost" 
               onClick={() => setCurrentStep('requirements')}
-              className="h-9 rounded-xl hover:bg-blue-50"
+              className="h-10 sm:h-9 rounded-xl hover:bg-blue-50"
             >
               Back
             </Button>
             <Button 
               onClick={handleNext}
               size="icon"
-              className="rounded-xl bg-blue-600 hover:bg-blue-700 shadow-md"
+              className="h-10 w-10 rounded-xl bg-blue-600 hover:bg-blue-700 shadow-md"
             >
               <ArrowUpRight className="h-5 w-5" />
             </Button>
@@ -246,7 +246,7 @@ export default function ChatbotForm() {
             <Button 
               variant="ghost" 
               onClick={() => setCurrentStep('contact')}
-              className="h-9 rounded-xl hover:bg-blue-50"
+              className="h-10 sm:h-9 rounded-xl hover:bg-blue-50"
             >
               Back
             </Button>
@@ -254,7 +254,7 @@ export default function ChatbotForm() {
               onClick={handleSubmit} 
               disabled={isSubmitting}
               size="icon"
-              className="rounded-xl bg-blue-600 hover:bg-blue-700 shadow-md"
+              className="h-10 w-10 rounded-xl bg-blue-600 hover:bg-blue-700 shadow-md"
             >
               {isSubmitting ? (
                 <Loader2 className="h-5 w-5 animate-spin" />
