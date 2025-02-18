@@ -4,30 +4,30 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useTypewriter } from "@/hooks/useTypewriter";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Loader2 } from "lucide-react";
 
 // Google Sheets submission URL
 const FORM_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTGMgJ0wvGAsq7BaikEKj6CWYt_vXx2Ccerg0q6zo8dH3KBwlb7N0AoZoU528vUSQF/exec";
 
-type FormStep = 'requirements' | 'contact' | 'additional';
+type FormStep = 'requirements' | 'contact' | 'additional' | 'success';
 
 interface FormData {
-  requirements: string;
+  idea: string;
   name: string;
   email: string;
   phone: string;
-  additional: string;
+  additional_info: string;
 }
 
 export default function ChatbotForm() {
   const [currentStep, setCurrentStep] = useState<FormStep>('requirements');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState<FormData>({
-    requirements: '',
+    idea: '',
     name: '',
     email: '',
     phone: '',
-    additional: ''
+    additional_info: ''
   });
 
   const { toast } = useToast();
@@ -52,7 +52,7 @@ export default function ChatbotForm() {
 
   const handleNext = () => {
     if (currentStep === 'requirements') {
-      if (!formData.requirements.trim()) {
+      if (!formData.idea.trim()) {
         toast({
           title: "Please describe your requirements",
           description: "This helps us understand your needs better",
@@ -102,25 +102,23 @@ export default function ChatbotForm() {
 
       const response = await fetch(FORM_SCRIPT_URL, {
         method: 'POST',
+        mode: 'no-cors', // This helps with CORS issues
         body: formDataToSend
       });
 
-      if (response.ok) {
-        toast({
-          title: "Thanks for your interest!",
-          description: "We'll get back to you soon."
-        });
+      // Since mode is 'no-cors', we won't get an ok status
+      // Instead, we'll assume success if the request completes
+      setCurrentStep('success');
+      setTimeout(() => {
         setFormData({
-          requirements: '',
+          idea: '',
           name: '',
           email: '',
           phone: '',
-          additional: ''
+          additional_info: ''
         });
         setCurrentStep('requirements');
-      } else {
-        throw new Error('Submission failed');
-      }
+      }, 3000);
     } catch (error) {
       toast({
         title: "Error submitting form",
@@ -132,14 +130,32 @@ export default function ChatbotForm() {
     }
   };
 
+  if (currentStep === 'success') {
+    return (
+      <div className="mt-8 bg-white rounded-lg shadow-lg p-4">
+        <div className="flex flex-col items-center justify-center py-8">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+            <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900">Thanks for reaching out!</h3>
+          <p className="text-gray-600 text-center mt-2">
+            We'll get back to you soon.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="mt-8 bg-white rounded-lg shadow-lg p-4">
       {currentStep === 'requirements' && (
         <div>
           <Textarea
-            name="requirements"
-            value={formData.requirements}
-            onChange={(e) => handleInputChange('requirements', e.target.value)}
+            name="idea"
+            value={formData.idea}
+            onChange={(e) => handleInputChange('idea', e.target.value)}
             placeholder={placeholderText}
             className="w-full min-h-[80px] mb-3 resize-none border-none focus:ring-0"
           />
@@ -222,10 +238,10 @@ export default function ChatbotForm() {
       {currentStep === 'additional' && (
         <div>
           <Textarea
-            name="additional"
+            name="additional_info"
             placeholder="Any additional notes or requirements..."
-            value={formData.additional}
-            onChange={(e) => handleInputChange('additional', e.target.value)}
+            value={formData.additional_info}
+            onChange={(e) => handleInputChange('additional_info', e.target.value)}
             className="w-full min-h-[80px] mb-4 resize-none border-none focus:ring-0"
           />
           <div className="flex justify-between">
@@ -242,7 +258,11 @@ export default function ChatbotForm() {
               size="icon"
               className="rounded-full bg-black hover:bg-gray-800"
             >
-              <ArrowUpRight className="h-5 w-5" />
+              {isSubmitting ? (
+                <Loader2 className="h-5 w-5 animate-spin" />
+              ) : (
+                <ArrowUpRight className="h-5 w-5" />
+              )}
             </Button>
           </div>
         </div>
