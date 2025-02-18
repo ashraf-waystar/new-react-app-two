@@ -15,22 +15,31 @@ export default function MainPage() {
       {/* Hero Section */}
       <section className="relative py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl">
-            <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Transform Your Digital Presence
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
-              We're a full-service digital agency helping businesses thrive in the digital age through innovative web solutions and strategic marketing.
-            </p>
-            <div className="space-x-4 mb-12">
-              <Link href="/services">
-                <Button size="lg">View Our Services</Button>
-              </Link>
-              <Link href="/contact">
-                <Button variant="outline" size="lg">Contact Us</Button>
-              </Link>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                Transform Your Digital Presence
+              </h1>
+              <p className="text-xl text-gray-600 mb-8">
+                We're a full-service digital agency helping businesses thrive in the digital age through innovative web solutions and strategic marketing.
+              </p>
+              <div className="space-x-4 mb-8">
+                <Link href="/services">
+                  <Button size="lg">View Our Services</Button>
+                </Link>
+                <Link href="/contact">
+                  <Button variant="outline" size="lg">Contact Us</Button>
+                </Link>
+              </div>
+              <ChatbotForm />
             </div>
-            <ChatbotForm />
+            <div className="hidden lg:block">
+              <img
+                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f"
+                alt="Digital Marketing Strategy"
+                className="rounded-lg shadow-2xl object-cover h-[600px] w-full"
+              />
+            </div>
           </div>
         </div>
       </section>

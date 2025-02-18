@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useTypewriter } from "@/hooks/useTypewriter";
+import { ArrowUpRight } from "lucide-react";
 
 // Google Sheets submission URL
 const FORM_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTGMgJ0wvGAsq7BaikEKj6CWYt_vXx2Ccerg0q6zo8dH3KBwlb7N0AoZoU528vUSQF/exec";
@@ -132,84 +133,116 @@ export default function ChatbotForm() {
   };
 
   return (
-    <div className="mt-12 bg-white rounded-lg shadow-lg p-6">
+    <div className="mt-8 bg-white rounded-lg shadow-lg p-4">
       {currentStep === 'requirements' && (
         <div>
           <Textarea
+            name="requirements"
             value={formData.requirements}
             onChange={(e) => handleInputChange('requirements', e.target.value)}
             placeholder={placeholderText}
-            className="w-full min-h-[100px] mb-4 resize-none"
+            className="w-full min-h-[80px] mb-3 resize-none border-none focus:ring-0"
           />
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 text-sm">
               <Button 
-                variant="outline" 
-                className="flex items-center gap-2"
+                variant="ghost" 
+                className="h-8 px-2"
                 onClick={() => window.location.href='tel:+18333311118'}
               >
-                <span className="w-4 h-4">📞</span>
+                <span className="w-4 h-4 mr-1">📞</span>
                 +1 8 3333 1111 8
               </Button>
               <Button 
-                variant="outline"
-                className="flex items-center gap-2"
+                variant="ghost"
+                className="h-8 px-2"
                 onClick={() => window.location.href='mailto:hello@stellardigitech.com'}
               >
-                <span className="w-4 h-4">✉️</span>
+                <span className="w-4 h-4 mr-1">✉️</span>
                 hello@stellardigitech.com
               </Button>
             </div>
-            <Button onClick={handleNext}>Next</Button>
+            <Button 
+              onClick={handleNext}
+              size="icon"
+              className="rounded-full bg-black hover:bg-gray-800"
+            >
+              <ArrowUpRight className="h-5 w-5" />
+            </Button>
           </div>
         </div>
       )}
 
       {currentStep === 'contact' && (
-        <div className="space-y-4">
-          <Input
-            placeholder="Your Name"
-            value={formData.name}
-            onChange={(e) => handleInputChange('name', e.target.value)}
-          />
-          <Input
-            type="email"
-            placeholder="Your Email"
-            value={formData.email}
-            onChange={(e) => handleInputChange('email', e.target.value)}
-          />
-          <Input
-            type="tel"
-            placeholder="Your Phone Number"
-            value={formData.phone}
-            onChange={(e) => handleInputChange('phone', e.target.value)}
-          />
+        <div>
+          <div className="grid grid-cols-3 gap-4 mb-4">
+            <Input
+              name="name"
+              placeholder="Your Name"
+              value={formData.name}
+              onChange={(e) => handleInputChange('name', e.target.value)}
+              className="border-none focus:ring-0"
+            />
+            <Input
+              name="email"
+              type="email"
+              placeholder="Your Email"
+              value={formData.email}
+              onChange={(e) => handleInputChange('email', e.target.value)}
+              className="border-none focus:ring-0"
+            />
+            <Input
+              name="phone"
+              type="tel"
+              placeholder="Your Phone Number"
+              value={formData.phone}
+              onChange={(e) => handleInputChange('phone', e.target.value)}
+              className="border-none focus:ring-0"
+            />
+          </div>
           <div className="flex justify-between">
-            <Button variant="outline" onClick={() => setCurrentStep('requirements')}>
+            <Button 
+              variant="ghost" 
+              onClick={() => setCurrentStep('requirements')}
+              className="h-8"
+            >
               Back
             </Button>
-            <Button onClick={handleNext}>Next</Button>
+            <Button 
+              onClick={handleNext}
+              size="icon"
+              className="rounded-full bg-black hover:bg-gray-800"
+            >
+              <ArrowUpRight className="h-5 w-5" />
+            </Button>
           </div>
         </div>
       )}
 
       {currentStep === 'additional' && (
-        <div className="space-y-4">
+        <div>
           <Textarea
+            name="additional"
             placeholder="Any additional notes or requirements..."
             value={formData.additional}
             onChange={(e) => handleInputChange('additional', e.target.value)}
-            className="w-full min-h-[100px] resize-none"
+            className="w-full min-h-[80px] mb-4 resize-none border-none focus:ring-0"
           />
           <div className="flex justify-between">
-            <Button variant="outline" onClick={() => setCurrentStep('contact')}>
+            <Button 
+              variant="ghost" 
+              onClick={() => setCurrentStep('contact')}
+              className="h-8"
+            >
               Back
             </Button>
             <Button 
               onClick={handleSubmit} 
               disabled={isSubmitting}
+              size="icon"
+              className="rounded-full bg-black hover:bg-gray-800"
             >
-              {isSubmitting ? 'Submitting...' : 'Submit'}
+              <ArrowUpRight className="h-5 w-5" />
             </Button>
           </div>
         </div>
