@@ -3,6 +3,7 @@ import { Service } from "@shared/schema";
 import ServiceCard from "@/components/ServiceCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import ChatbotForm from "@/components/ChatbotForm";
 
 export default function MainPage() {
   const { data: services } = useQuery<Service[]>({ 
@@ -21,7 +22,7 @@ export default function MainPage() {
             <p className="text-xl text-gray-600 mb-8">
               We're a full-service digital agency helping businesses thrive in the digital age through innovative web solutions and strategic marketing.
             </p>
-            <div className="space-x-4">
+            <div className="space-x-4 mb-12">
               <Link href="/services">
                 <Button size="lg">View Our Services</Button>
               </Link>
@@ -29,6 +30,7 @@ export default function MainPage() {
                 <Button variant="outline" size="lg">Contact Us</Button>
               </Link>
             </div>
+            <ChatbotForm />
           </div>
         </div>
       </section>
