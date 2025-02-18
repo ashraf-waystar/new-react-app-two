@@ -1,0 +1,115 @@
+// --- Form Handling ---
+const scriptURL = "https://script.google.com/macros/s/AKfycbxTGMgJ0wvGAsq7BaikEKj6CWYt_vXx2Ccerg0q6zo8dH3KBwlb7N0AoZoU528vUSQF/exec";
+const form = document.getElementById("multiStepForm");
+const nextBtn = document.getElementById("nextBtn");
+const formContainer = document.querySelector(".card");
+const successAnimation = document.getElementById("successAnimation");
+const successMessage = document.getElementById("successMessage");
+const fieldsets = form.querySelectorAll("fieldset");
+let currentStep = 0;
+
+// Initialize form
+showStep(currentStep);
+
+// Next Button Handler
+nextBtn.addEventListener("click", function () {
+  if (validateStep(currentStep)) {
+    if (currentStep < fieldsets.length - 1) {
+      currentStep++;
+      showStep(currentStep);
+    } else {
+      submitForm();
+    }
+  }
+});
+function validateStep(step) {
+  const inputs = fieldsets[step].querySelectorAll("input, textarea");
+  let isValid = true;
+
+  // Special validation for contact info step (step 3)
+  if (step === 2) { 
+    const emailInput = fieldsets[2].querySelector('input[name="email"]');
+    const phoneInput = fieldsets[2].querySelector('input[name="phone"]');
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const phoneDigits = phone.replace(/\D/g, ''); // Remove non-digit characters
+
+    // Regex to check email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || !emailRegex.test(email)) {
+      alert("Please provide a valid email address.");
+      return false;
+    }
+    
+    if (!phone || phoneDigits.length < 10) {
+      alert("Please provide a valid phone number with at least 10 digits.");
+      return false;
+    }
+  }
+
+  // General required field validation for all steps
+  inputs.forEach(input => {
+    if (input.required && !input.value.trim()) {
+      isValid = false;
+    }
+  });
+
+  if (!isValid) {
+    alert("Please fill out all required fields.");
+    return false;
+  }
+  return true;
+}
+
+// Show Current Step
+function showStep(index) {
+  fieldsets.forEach((fieldset, i) => {
+    fieldset.classList.toggle("active", i === index);
+    fieldset.style.display = i === index ? "block" : "none";
+  });
+
+  // Update button text for last step
+  nextBtn.innerHTML = index === fieldsets.length - 1 ? 
+    `<img src="img/arrow_upward_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Submit">` : 
+    `<img src="img/arrow_upward_24dp_FFFFFF_FILL0_wght400_GRAD0_opsz24.png" alt="Next">`;
+}
+
+// Form Submission
+function submitForm() {
+  nextBtn.innerHTML = `<img src="img/loading.gif" alt="Loading..." style="width: 24px; height: 24px;">`;
+  
+  fetch(scriptURL, { method: "POST", body: new FormData(form) })
+    .then(response => {
+      if (response.ok) {
+        formContainer.style.display = "none";
+        nextBtn.style.display = "none";
+        successAnimation.style.display = "block";
+        successMessage.style.display = "block";
+      } else {
+        throw new Error("Network response was not ok");
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("Error submitting form. Please try again.");
+      nextBtn.innerHTML = "Try Again";
+    });
+}
+
+// Tag Click Handlers (keep both versions for compatibility)
+document.querySelectorAll("#tagsContainer li").forEach(tag => {
+  tag.addEventListener("click", () => {
+    const serviceName = tag.querySelector(".service-name")?.textContent;
+    const imgAlt = tag.querySelector("img")?.alt.trim();
+    const textarea = document.getElementById("text-input");
+    
+    if (serviceName) {
+      textarea.value = `I'm interested in ${serviceName} services.`;
+    } else if (imgAlt) {
+      textarea.value = imgAlt;
+    }
+    
+    textarea.focus();
+  });
+});
