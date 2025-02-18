@@ -46,17 +46,16 @@ export default function ContactPage() {
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-4xl font-bold mb-8">Contact Us</h1>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div>
               <h3 className="text-lg font-semibold mb-2">Office Address</h3>
-              <p className="text-gray-600">123 Agency Street</p>
-              <p className="text-gray-600">City, Country</p>
+              <p className="text-gray-600">314 JSR IND 831-001</p>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-2">Contact Information</h3>
-              <p className="text-gray-600">Email: contact@agency.com</p>
-              <p className="text-gray-600">Phone: +1 (555) 123-4567</p>
+              <p className="text-gray-600">Email: hello@stellardigitech.com</p>
+              <p className="text-gray-600">Phone: +1 8 3333 1111 8</p>
             </div>
           </div>
 
@@ -110,7 +109,7 @@ export default function ContactPage() {
                     <FormItem>
                       <FormLabel>Message</FormLabel>
                       <FormControl>
-                        <Textarea 
+                        <Textarea
                           placeholder="Your message"
                           className="min-h-[120px]"
                           {...field}
